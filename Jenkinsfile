@@ -78,20 +78,19 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-hub-cred') {
-                        sh '''
-                        docker build -t "$IMAGE_NAME:$IMAGE_TAG" .
-                        '''
+                        
+                      sh " docker build -t $IMAGE_NAME:$IMAGE_TAG . "  
+                       
                     }
                 }
             }
         }
 
-# For java Based Apps Trivy Download JAVA DB to check vulnerabilities which is 1GB in size 
+
         stage('Image Scanning') {
             steps {
                 sh '''
-                    sudo mkdir -p /var/tmp/trivy
-                    sudo chown -R jenkins:jenkins /var/tmp/trivy
+                    export TMPDIR=/var/tmp/trivy
 
                     trivy image \
                       --cache-dir "$TRIVY_CACHE" \
@@ -127,7 +126,7 @@ pipeline {
                         set -e
                         
                         git clone \
-                      "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/SurajKhanderao/Mega-Project-CD.git  Mega-Project-CD
+                      "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/SurajKhanderao/Mega-Project-CD.git"  Mega-Project-CD
                       
 
                         cd Mega-Project-CD/Manifests

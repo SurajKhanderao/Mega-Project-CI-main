@@ -78,14 +78,15 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-hub-cred') {
-                        sh ''' docker build \
-                              -t "$IMAGE_NAME:$IMAGE_TAG" .
+                        sh '''
+                        docker build -t "$IMAGE_NAME:$IMAGE_TAG" .
                         '''
                     }
                 }
             }
         }
 
+# For java Based Apps Trivy Download JAVA DB to check vulnerabilities which is 1GB in size 
         stage('Image Scanning') {
             steps {
                 sh '''
